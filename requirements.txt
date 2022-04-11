@@ -3,5 +3,5 @@ gensim
 tensorboardX
 cytoolz
 pyrouge
-transformers
-
+transformers==2.0.0
+pytorch-transformers
