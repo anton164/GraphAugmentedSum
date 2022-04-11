@@ -503,7 +503,6 @@ def main(args):
 
 
 if __name__ == '__main__':
-    torch.cuda.set_device(1)
     parser = argparse.ArgumentParser(
         description='training of the abstractor (ML)'
     )
