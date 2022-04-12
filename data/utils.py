@@ -18,6 +18,6 @@ def create_data_lookup_map(dir):
       )
       if os.path.isdir(split_dir):
         for filename in os.listdir(split_dir):
-          lookup_map[split][filename] = chunk
+          lookup_map[split][filename.replace(".json", "")] = chunk
 
   return lookup_map
