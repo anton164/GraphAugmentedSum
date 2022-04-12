@@ -7,19 +7,27 @@ from torch.utils.data import Dataset
 
 
 class CnnDmDataset(Dataset):
-    def __init__(self, split: str, path: str, data_lookup_fn = None) -> None:
+    def __init__(self, split: str, path: str, data_lookup_map = None) -> None:
         assert split in ['train', 'val', 'test']
         self._data_path = join(path, split)
-        self._n_data = _count_data(self._data_path)
-        self._data_lookup_fn = data_lookup_fn
+        self._n_data = _count_data(self._data_path) if data_lookup_map is None else len(data_lookup_map[split])
+        self._data_lookup_map = data_lookup_map
         self._split = split
+
+    def _data_lookup(self, split, i):
+        return os.path.join(
+            os.environ['DATA'], # data dir
+            self._data_lookup_map[split][str(i)], # chunk
+            split,
+            str(i) + ".json"
+        )
 
     def __len__(self) -> int:
         return self._n_data
 
     def __getitem__(self, i: int):
         if self._data_lookup_fn is not None:
-            with open(self._data_lookup_fn(self._split, i)) as f:
+            with open(self._data_lookup(self._split, i)) as f:
                 js = json.loads(f.read())
         else:
             with open(join(self._data_path, '{}.json'.format(i))) as f:

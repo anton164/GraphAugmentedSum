@@ -47,18 +47,12 @@ print("Creating data lookup map...")
 data_lookup_map = create_data_lookup_map(os.environ['DATA'])
 for split in ["train", "val", "test"]:
     print(f"{split}: {len(data_lookup_map[split])}")
-data_lookup_fn = lambda split, i: os.path.join(
-    os.environ['DATA'], # data dir
-    data_lookup_map[split][str(i)], # chunk
-    split,
-    str(i) + ".json"
-)
 class MatchDataset(CnnDmDataset):
     """ single article sentence -> single abstract sentence
     (dataset created by greedily matching ROUGE)
     """
     def __init__(self, split):
-        super().__init__(split, DATA_DIR, data_lookup_fn)
+        super().__init__(split, DATA_DIR, data_lookup_map)
 
     def __getitem__(self, i):
         js_data = super().__getitem__(i)
@@ -73,7 +67,7 @@ class SumDataset(CnnDmDataset):
     (dataset created by greedily matching ROUGE)
     """
     def __init__(self, split):
-        super().__init__(split, DATA_DIR, data_lookup_fn)
+        super().__init__(split, DATA_DIR, data_lookup_map)
 
     def __getitem__(self, i):
         js_data = super().__getitem__(i)
@@ -88,7 +82,7 @@ class MatchDataset_all2all(CnnDmDataset):
     (dataset created by greedily matching ROUGE)
     """
     def __init__(self, split):
-        super().__init__(split, DATA_DIR, data_lookup_fn)
+        super().__init__(split, DATA_DIR, data_lookup_map)
 
     def __getitem__(self, i):
         js_data = super().__getitem__(i)
@@ -103,7 +97,7 @@ class MatchDataset_graph(CnnDmDataset):
     (dataset created by greedily matching ROUGE)
     """
     def __init__(self, split, key='nodes_pruned2', subgraph=False):
-        super().__init__(split, DATA_DIR, data_lookup_fn)
+        super().__init__(split, DATA_DIR, data_lookup_map)
         self.node_key = key
         self.edge_key = key.replace('nodes', 'edges')
         self.subgraph = subgraph
