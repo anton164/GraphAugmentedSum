@@ -5,3 +5,4 @@ cytoolz
 pyrouge
 transformers==2.0.0
 pytorch-transformers
+tqdm
