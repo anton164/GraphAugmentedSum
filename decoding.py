@@ -267,26 +267,25 @@ class BeamAbstractorGAT(object):
         self._key = key
         self._copy_from_node = self._net._copy_from_node
         self._docgraph = docgraph
-        # self._bert = abstractor._bert
-        self._bert = None
+        self._bert = abstractor._bert
 
         if self._bert:
             print("Self._bert", self._bert)
             self._bert_length = abstractor._bert_max_length
             self._tokenizer = abstractor._bert_model._tokenizer
+            # try:
+            #     with open('/data/luyang/process-nyt/bert_tokenizaiton_aligns/robertaalign-base-cased.pkl', 'rb') as f:
+            #         self._align = pickle.load(f)
+            # except FileNotFoundError:
+            #     with open('/data2/luyang/process-nyt/bert_tokenizaiton_aligns/robertaalign-base-cased.pkl', 'rb') as f:
+            #         self._align = pickle.load(f)
             try:
-                with open('/data/luyang/process-nyt/bert_tokenizaiton_aligns/robertaalign-base-cased.pkl', 'rb') as f:
+                with open('/content/data/roberta-base-align.pkl', 'rb') as f:
                     self._align = pickle.load(f)
-            except FileNotFoundError:
-                with open('/data2/luyang/process-nyt/bert_tokenizaiton_aligns/robertaalign-base-cased.pkl', 'rb') as f:
-                    self._align = pickle.load(f)
-            try:
-                with open('/data/luyang/process-cnn-dailymail/bert_tokenizaiton_aligns/robertaalign-base-cased.pkl', 'rb') as f:
-                    align2 = pickle.load(f)
             except FileNotFoundError:
                 with open('/data2/luyang/process-cnn-dailymail/bert_tokenizaiton_aligns/robertaalign-base-cased.pkl', 'rb') as f:
                     align2 = pickle.load(f)
-            self._align.update(align2)
+            # self._align.update(align2)
             self._end = self._tokenizer.encoder[self._tokenizer._eos_token]
             self._unk = self._tokenizer.encoder[self._tokenizer._unk_token]
         else:
