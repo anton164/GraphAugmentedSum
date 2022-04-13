@@ -7,7 +7,6 @@ import pickle as pkl
 from itertools import starmap
 
 from cytoolz import curry, concat
-from data.utils import create_data_lookup_map
 
 import torch
 
@@ -34,16 +33,11 @@ try:
 except KeyError:
     print('please use environment variable to specify data directories')
 
-print("Creating data lookup map...")
-data_lookup_map = create_data_lookup_map(os.environ['DATA'])
-for split in ["train", "val", "test"]:
-    print(f"{split}: {len(data_lookup_map[split])}")
-
 class DecodeDataset(CnnDmDataset):
     """ get the article sentences only (for decoding use)"""
     def __init__(self, split):
         assert split in ['val', 'test']
-        super().__init__(split, DATASET_DIR, data_lookup_map)
+        super().__init__(split, DATASET_DIR)
 
     def __getitem__(self, i):
         js_data = super().__getitem__(i)
@@ -54,7 +48,7 @@ class AbsDecodeDataset(CnnDmDataset):
     """ get the article sentences only (for decoding use)"""
     def __init__(self, split):
         assert split in ['val', 'test']
-        super().__init__(split, DATASET_DIR, data_lookup_map)
+        super().__init__(split, DATASET_DIR)
 
     def __getitem__(self, i):
         js_data = super().__getitem__(i)
@@ -66,7 +60,7 @@ class AbsDecodeDatasetGAT(CnnDmDataset):
     """ get the article sentences only (for decoding use)"""
     def __init__(self, split, docgraph):
         assert split in ['val', 'test']
-        super().__init__(split, DATASET_DIR, data_lookup_map)
+        super().__init__(split, DATASET_DIR)
         self._docgraph = docgraph
 
     def __getitem__(self, i):
@@ -90,7 +84,7 @@ class DecodeDatasetGAT(CnnDmDataset):
     """ get the article sentences only (for decoding use)"""
     def __init__(self, split, key):
         assert split in ['val', 'test']
-        super().__init__(split, DATASET_DIR, data_lookup_map)
+        super().__init__(split, DATASET_DIR)
         assert key in ['nodes', 'nodes_pruned2', 'nodes_sw']
         self._key = key
         self._edge_key = key.replace('nodes', 'edges')
@@ -104,7 +98,7 @@ class DecodeDatasetGATSubgraph(CnnDmDataset):
     """ get the article sentences only (for decoding use)"""
     def __init__(self, split, key):
         assert split in ['val', 'test']
-        super().__init__(split, DATASET_DIR, data_lookup_map)
+        super().__init__(split, DATASET_DIR)
         assert key in ['nodes', 'nodes_pruned2', 'nodes_sw']
         self._key = key
         self._edge_key = key.replace('nodes', 'edges')
