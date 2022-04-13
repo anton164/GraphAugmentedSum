@@ -270,6 +270,7 @@ class BeamAbstractorGAT(object):
         self._bert = abstractor._bert
 
         if self._bert:
+            print("Self._bert", self._bert)
             self._bert_length = abstractor._bert_max_length
             self._tokenizer = abstractor._bert_model._tokenizer
             try:
@@ -1019,10 +1020,10 @@ class ExtractorGAT(object):
         self._word2id = word2id
         self._id2word = {i: w for w, i in word2id.items()}
         self._max_ext = max_ext
-        try:
-            self._bert = self._net._bert
-        except:
-            self._bert = False
+        # try:
+        #     self._bert = self._net._bert
+        # except:
+        self._bert = False
 
     def __call__(self, article, article_sents, nodes, edges, output_attn=False):
         self._net.eval()
