@@ -63,7 +63,7 @@ def decode(save_path, abs_dir, split, batch_size, max_len, cuda, min_len):
 
     n_data = len(dataset)
     loader = DataLoader(
-        dataset, batch_size=batch_size, shuffle=False, num_workers=4,
+        dataset, batch_size=batch_size, shuffle=False, num_workers=2,
         collate_fn=coll
     )
 
@@ -152,7 +152,7 @@ def decodeGAT(save_path, abs_dir, split, batch_size, max_len, cuda, min_len, doc
 
     n_data = len(dataset)
     loader = DataLoader(
-        dataset, batch_size=batch_size, shuffle=False, num_workers=4,
+        dataset, batch_size=batch_size, shuffle=False, num_workers=2,
         collate_fn=coll
     )
 

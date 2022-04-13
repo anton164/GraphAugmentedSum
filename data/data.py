@@ -26,7 +26,7 @@ class CnnDmDataset(Dataset):
         return self._n_data
 
     def __getitem__(self, i: int):
-        if self._data_lookup_fn is not None:
+        if self._data_lookup_map is not None:
             with open(self._data_lookup(self._split, i)) as f:
                 js = json.loads(f.read())
         else:
