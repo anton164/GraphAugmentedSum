@@ -22,7 +22,7 @@ logging.basicConfig(level=logging.ERROR)
 from copy import deepcopy
 from model.util import sequence_loss
 from torch.nn import functional as F
-
+import wandb
 
 def get_basic_grad_fn(net, clip_grad, max_grad=1e2):
     def f():
@@ -619,6 +619,7 @@ class BasicTrainer(object):
         for key, value in log_dict.items():
             self._logger.add_scalar(
                 '{}_{}'.format(key, self._pipeline.name), value, self._step)
+        wandb.log(log_dict)
 
     def validate(self):
         print()
@@ -729,6 +730,7 @@ class MultiTaskTrainer(object):
         for key, value in log_dict.items():
             self._logger.add_scalar(
                 '{}_{}'.format(key, self._pipeline.name), value, self._step)
+        wandb.log(log_dict)
 
     def validate(self):
         print()

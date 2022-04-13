@@ -6,7 +6,7 @@ import json
 import os, re
 from os.path import join, exists
 import pickle as pkl
-
+import wandb
 from cytoolz import compose, concat
 
 import torch
@@ -505,6 +505,7 @@ def main(args):
     print('start training with the following hyper-parameters:')
     print(meta)
     trainer.train()
+    wandb.watch(net)
 
 
 if __name__ == '__main__':
@@ -512,6 +513,7 @@ if __name__ == '__main__':
         description='training of the abstractor (ML)'
     )
     parser.add_argument('--path', required=True, help='root of the model')
+    parser.add_argument('--run_name', required=True, help='run name in wandb')
     parser.add_argument('--key', type=str, default='extracted_combine', help='constructed sentences')
 
 
@@ -574,7 +576,7 @@ if __name__ == '__main__':
     parser.add_argument('--no-cuda', action='store_true',
                         help='disable GPU training')
     parser.add_argument('--load_from', type=str, default=None,
-                        help='disable GPU training')
+                        help='load from checkpoint')
     parser.add_argument('--gpu_id', type=int, default=0, help='gpu id')
     args = parser.parse_args()
     if args.debug:
@@ -594,5 +596,9 @@ if __name__ == '__main__':
         torch.cuda.set_device(args.gpu_id)
 
     args.n_gpu = 1
+    run = wandb.init(project="asgard", entity="graph-factuality")
+    run.name = args.run_name
+    config = wandb.config
+    config.update(args)
 
     main(args)
