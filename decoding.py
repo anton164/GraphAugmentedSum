@@ -267,7 +267,8 @@ class BeamAbstractorGAT(object):
         self._key = key
         self._copy_from_node = self._net._copy_from_node
         self._docgraph = docgraph
-        self._bert = abstractor._bert
+        # self._bert = abstractor._bert
+        self._bert = None
 
         if self._bert:
             print("Self._bert", self._bert)
