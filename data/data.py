@@ -18,6 +18,7 @@ class CnnDmDataset(Dataset):
         return os.path.join(
             os.environ['DATA'], # data dir
             self._data_lookup_map[split][str(i)], # chunk
+            "finished_files_openie_3",
             split,
             str(i) + ".json"
         )
