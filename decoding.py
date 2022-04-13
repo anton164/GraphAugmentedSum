@@ -964,10 +964,10 @@ class Extractor(object):
         self._id2word = {i: w for w, i in word2id.items()}
         self._max_ext = max_ext
         self.force_ext = force_ext
-        try:
-            self._bert = self._net._bert
-        except:
-            self._bert = False
+        # try:
+            # self._bert = self._net._bert
+        # except:
+        self._bert = False
 
     def __call__(self, raw_article_sents):
         if not self._bert:
