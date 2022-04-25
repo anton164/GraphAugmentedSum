@@ -6,6 +6,7 @@ from datetime import timedelta
 import gc
 import os
 from nltk.stem import porter
+import argparse
 
 
 DATA_DIR = ''
@@ -869,6 +870,19 @@ def process_mp_split(split, data, stopwords, data_num):
 
 
 if __name__ == '__main__':
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "DATA_DIR"
+    )
+    parser.add_argument(
+        "OPENIE_DIR"
+    )
+    parser.add_argument(
+        "WRITE_DIR"
+    )
+    parser.add_argument(
+        "dataset"
+    )
     stopwords = get_stopwods()
     stemmer = porter.PorterStemmer()
     # for split in ['test', 'val', 'train']:
